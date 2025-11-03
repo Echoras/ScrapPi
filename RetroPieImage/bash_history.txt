@@ -1,0 +1,56 @@
+sudo apt-get install cmake
+git clone https://github.com/juj/fbcp-ili9341.git
+cd fbcp-ili9341
+sudo mkdir build
+cd build
+sudo cmake -DILI9341=ON -DGPIO_TFT_DATA_CONTROL=22 -DGPIO_TFT_RESET_PIN=27 -DSPI_BUS_CLOCK_DIVISOR=6 -DSTATISTICS=0 ..
+sudo make -j
+sudo ./fbcp-ili9341
+sudo nano /etc/rc.local
+sudo nano /boot/firmware/config.txt
+sudo nano /boot//config.txt
+sudo reboot
+sudo apt install -y wget
+wget https://github.com/adafruit/Raspberry-Pi-Installer-Scripts/raw/main/i2samp.py
+sudo -E env PATH=%PATH python3 i2samp.py
+sudo apt install python3
+sudo -E env PATH=%PATH python3 i2samp.py
+sudo -E env PATH=$PATH python3 i2samp.py
+sudp pip3 install adafruit-python-shell
+sudo pip3 install adafruit-python-shell
+sudo install pip3
+sudo apt-get install pip3
+sudo pip3 install adafruit-python-shell
+sudo apt install python3-pip
+sudo -E env PATH=%PATH python3 i2samp.py
+sudo -E env PATH=$PATH python3 i2samp.py
+sudo pip3 install adafruit-python-shell
+sudo -E env PATH=$PATH python3 i2samp.py
+sudo speaker-test
+sudo raspi-config
+alsamixer
+sudo raspi-config
+alsamixer
+sudo speaker-test
+sudo nano /etc/boot.config
+sudo nano /boot.config.txt
+sudo nano /boot/config.txt
+sudo reboot
+speaker-test
+alsamixer
+sudo alsamixer
+sudo nano /boot/config.txt
+sudo nano /etc/asound.conf
+sudo nano /boot/config.txt
+sudo nano /etc/modules
+sudo nano /etc/modprobe.d/raspi-blacklist.conf
+sudo reboot
+speaker-test -c2
+alsamixer
+sudo raspi-config
+alsamixer
+speaker-test -c2 --test=wav -w /usr/share/sounds/alsa/Front_Center.wav
+sudo systemctl aplay.service
+sudo systemctl status aplay.service
+sudo systemctl disable aplay.service
+sudo reboot
