@@ -170,6 +170,56 @@ hdmi_mode=87
 hdmi_drive=2
 ```
 
+Perfect — that’ll fit beautifully as a small “Gamepad + Bluetooth Setup” section right after your Art Mode or setup section. Here’s a **GitHub-friendly version** that matches your visual style and formatting (centered images, nice inline code blocks, and everything clean for your README):
+
+---
+
+## Gamepad + Bluetooth Setup
+
+The ScrapPi can connect to **Bluetooth gamepads and keyboards** for portable control or retro-style input.
+Installing the Bluetooth stack ensures smooth pairing with most modern wireless devices.
+
+<p align="center">
+  <img src="images/ipega2.jpg" width="320" />
+  <img src="images/Keyboard.jpg" width="320" /><br/>
+  <i>Pairing a Bluetooth gamepad and keyboard to the ScrapPi.</i>
+</p>
+
+### Install Bluetooth Utilities
+
+```bash
+sudo apt update
+sudo apt install bluetooth blueman bluez -y
+sudo systemctl enable bluetooth
+sudo systemctl start bluetooth
+```
+
+Once installed, you can open the **Bluetooth Manager (Blueman)** via the Raspberry Pi desktop
+or pair manually through the terminal:
+
+```bash
+bluetoothctl
+```
+
+Then inside the prompt:
+
+```
+power on
+agent on
+scan on
+pair XX:XX:XX:XX:XX:XX
+trust XX:XX:XX:XX:XX:XX
+connect XX:XX:XX:XX:XX:XX
+```
+
+*(Replace the Xs with your device’s MAC address shown during scan.)*
+
+After connecting, your controller or keyboard should work seamlessly across all modes —
+from Angry Oxide and Art Mode to emulators or terminal control.
+
+---
+
+
 ## Power System Integration
 
 The second stage of the build is powering the ScrapPi using salvaged cells and a modular charging circuit.  
@@ -489,3 +539,373 @@ Keep these for reproducibility and version tracking:
 </p>
 
 ---
+Absolutely — here’s your **GitHub-ready Art Mode section**, written in the same visual and formatting style as your earlier ScrapPi README (with centered images, clean code fences, and no weird markdown/batch splits). You can copy-paste this directly into your README:
+
+---
+
+## Art Mode (GIF Loop Display)
+
+A lightweight mode that turns the ScrapPi into a **digital kinetic sculpture**, endlessly looping through local GIFs or short videos.
+This is the simplest “visual personality” mode — perfect for idle display or ambient background use.
+
+<p align="center">
+  <img src="images/Gipslooping.jpeg" width="600"><br/>
+  <i>Art Mode in action — looping GIFs fullscreen through MPV.</i>
+</p>
+
+### Setup
+
+Create a folder for your visuals:
+
+```bash
+mkdir /home/pi/GIFS
+```
+
+Add your `.gif` or `.mp4` files inside that folder.
+
+Install MPV if not already installed:
+
+```bash
+sudo apt install mpv -y
+```
+
+### Script
+
+Save this script as `/home/pi/artmode.sh`:
+
+```bash
+#!/bin/bash
+mpv --loop-playlist --fullscreen /home/pi/GIFS/
+```
+
+Make it executable:
+
+```bash
+chmod +x /home/pi/artmode.sh
+```
+
+Run it anytime with:
+
+```bash
+./artmode.sh
+```
+
+### Auto-Start on Boot (optional)
+
+To have Art Mode start automatically on boot, edit `/etc/rc.local` and add this line before `exit 0`:
+
+```bash
+/home/pi/artmode.sh &
+```
+
+This transforms the ScrapPi into a looping visual installation —
+a low-power, always-on art display that runs entirely offline.
+
+---
+
+
+# Volumio Music Mode
+  <img src="images/Volumio.jpg" width="400"><br/>
+  <em>Standalone audio playback mode using ALSA and LightDM tweaks</em>
+</p>
+
+In this mode, the Pi boots directly into a clean music playback environment using **Volumio** and **ALSA**.  
+Sound output is handled by a custom audio pipeline configured for low latency playback.
+
+---
+
+###  ALSA Configuration
+Edit the system configuration files:
+
+```bash
+sudo nano /usr/share/alsa/alsa.conf
+sudo nano /etc/asound.conf
+```
+
+entry:
+```bash
+pcm.!default {
+  type hw
+  card 0
+}
+ctl.!default {
+  type hw
+  card 0
+}
+```
+
+### aplay Service Setup
+
+Create a lightweight service to autostart playback on boot:
+
+sudo nano /etc/systemd/system/aplay.service
+
+
+Example service:
+```bash
+[Unit]
+Description=ALSA Playback Service
+After=sound.target
+
+[Service]
+ExecStart=/usr/bin/aplay /home/pi/Music/boot.wav
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Enable it:
+```bash
+sudo systemctl enable aplay.service
+```
+### LightDM Autologin
+
+Ensure LightDM logs in automatically to the music user session:
+```bash
+sudo nano /etc/lightdm/lightdm.conf
+```
+
+Set:
+```bash
+[Seat:*]
+autologin-user=pi
+autologin-session=lightdm-autostart
+```
+
+---
+
+
+<h2 align="center"> RetroPie Mode</h2>
+<p align="center">
+  <img src="images/Retropi.png" width="400">
+  <em>Classic gaming mode with full TFT display and audio support</em>
+</p>
+
+RetroPie Mode turns your Pi into a compact handheld console.  
+This setup includes **TFT display drivers**, **I2S audio**, and **custom ALSA configuration** to make everything work seamlessly.
+
+---
+
+<h3>Setup Commands</h3>
+
+```bash
+sudo apt-get install cmake
+git clone https://github.com/juj/fbcp-ili9341.git
+cd fbcp-ili9341
+sudo mkdir build
+cd build
+sudo cmake -DILI9341=ON -DGPIO_TFT_DATA_CONTROL=22 -DGPIO_TFT_RESET_PIN=27 -DSPI_BUS_CLOCK_DIVISOR=6 -DSTATISTICS=0 ..
+sudo make -j
+sudo ./fbcp-ili9341
+
+sudo nano /etc/rc.local
+sudo nano /boot/firmware/config.txt
+sudo nano /boot/config.txt
+sudo reboot
+````
+
+---
+
+<h3>I2S Audio Setup</h3>
+
+Install the Adafruit I2S AMP driver:
+
+```bash
+sudo apt install -y wget python3 python3-pip
+wget https://github.com/adafruit/Raspberry-Pi-Installer-Scripts/raw/main/i2samp.py
+sudo -E env PATH=$PATH python3 i2samp.py
+sudo pip3 install adafruit-python-shell
+```
+
+Test and configure audio:
+
+```bash
+sudo alsamixer
+speaker-test -c2 --test=wav -w /usr/share/sounds/alsa/Front_Center.wav
+sudo raspi-config
+sudo reboot
+```
+
+---
+
+<h3>asound.conf</h3>
+
+Edit `/etc/asound.conf` to include:
+
+```conf
+pcm.speakerbonnet {
+   type hw card 0
+}
+
+pcm.dmixer {
+   type dmix
+   ipc_key 1024
+   ipc_perm 0666
+   slave {
+     pcm "speakerbonnet"
+     period_time 0
+     period_size 1024
+     buffer_size 8192
+     rate 44100
+     channels 2
+   }
+}
+
+ctl.dmixer {
+    type hw card 0
+}
+
+pcm.softvol {
+    type softvol
+    slave.pcm "dmixer"
+    control.name "PCM"
+    control.card 0
+}
+
+ctl.softvol {
+    type hw card 0
+}
+
+pcm.!default {
+    type             plug
+    slave.pcm        "softvol"
+}
+```
+
+---
+
+<h3>Kernel Modules</h3>
+
+Edit `/etc/modules` to include:
+
+```conf
+# /etc/modules: kernel modules to load at boot time.
+#
+# This file contains the names of kernel modules that should be loaded
+# at boot time, one per line. Lines beginning with "#" are ignored.
+
+uinput
+```
+
+---
+
+<h3>Optional Service Management</h3>
+
+Disable the aplay autostart service if present:
+
+```bash
+sudo systemctl disable aplay.service
+sudo reboot
+```
+
+---
+
+Perfect — here’s your **Desktop Environment** section, written in the same GitHub-ready format as the others (HTML-compatible, cleanly copy-pasteable, and stylistically consistent with your README layout).
+
+---
+
+<h2 align="center">Desktop Environment</h2>
+<p align="center">
+  <img src="images/DesktopEnv.jpg" width="350"><br/>
+  <em>Running on a different image build — Raspbian Buster (Debian 10)</em>
+</p>
+
+This setup uses a **different image** than the RetroPie and Art modes.  
+Here we’re working with **Raspbian GNU/Linux 10 (Buster)** — a lightweight desktop environment ideal for running graphical applications, music players, and Bluetooth connectivity for peripherals like keyboards or gamepads.
+
+---
+
+<h3> System Info</h3>
+
+```bash
+PRETTY_NAME="Raspbian GNU/Linux 10 (buster)"
+NAME="Raspbian GNU/Linux"
+VERSION_ID="10"
+VERSION="10 (buster)"
+VERSION_CODENAME=buster
+ID=raspbian
+ID_LIKE=debian
+HOME_URL="http://www.raspbian.org/"
+SUPPORT_URL="http://www.raspbian.org/RaspbianForums"
+BUG_REPORT_URL="http://www.raspbian.org/RaspbianBugs"
+````
+
+---
+
+<h3>Setup Commands</h3>
+
+Below are the main setup commands used to configure the environment, display drivers, audio, and Bluetooth support.
+
+```bash
+sudo apt-get update
+sudo apt-get install cmake
+sudo git clone https://github.com/juj/fbcp-ili9341
+cd fbcp-ili9341
+sudo mkdir build
+cd build
+sudo cmake -DILI9341=ON -DGPIO_TFT_DATA_CONTROL=22 -DGPIO_TFT_RESET_PIN=27 -DSPI_BUS_CLOCK_DIVISOR=6 -DSTATISTICS=0 ..
+sudo make -j
+
+cd ~
+sudo nano /etc/rc.local
+sudo nano /boot/config.txt
+
+sudo apt install python3-venv
+sudo apt install -y wget
+pip3 install adafruit-python-shell
+wget https://github.com/adafruit/Raspberry-Pi-Installer-Scripts/raw/main/i2samp.py
+sudo -E env PATH=$PATH python3 i2samp.py
+
+sudo apt update
+sudo apt install bluetooth bluez blueman -y
+sudo systemctl start bluetooth
+sudo systemctl enable bluetooth
+bluetoothctl
+alsamixer
+bluetoothctl
+sudo -E env PATH=$PATH python3 i2samp.py
+```
+
+---
+
+<h3>🧩 Features Enabled</h3>
+
+<ul>
+  <li><strong>Display:</strong> TFT panel driven by <code>fbcp-ili9341</code> build.</li>
+  <li><strong>Audio:</strong> I2S amplifier setup via Adafruit install script.</li>
+  <li><strong>Bluetooth:</strong> Full Bluetooth stack (<code>bluetooth</code>, <code>bluez</code>, <code>blueman</code>) for wireless keyboards and gamepads.</li>
+  <li><strong>Sound Control:</strong> Configurable through <code>alsamixer</code> for both internal and Bluetooth audio devices.</li>
+  <li><strong>Desktop Use:</strong> Perfect for running Volumio, web browsers, file managers, and small utilities with minimal system load.</li>
+</ul>
+
+---
+
+<p align="center">
+  <em>The Desktop Mode gives the project a full workstation personality — for when you want the Pi to act like a computer again.</em>
+</p>
+
+---
+
+<h2 align="center">Conclusion</h2>
+<p align="center">
+  <em>The ScrapPi — reborn as a modular experiment station.</em>
+</p>
+
+The build began as leftover boards and broken shells, but evolved into a set of living modes:  
+RetroPie for play, Art Mode for motion, Oxide Mode for low-level exploration, and the Desktop for control.  
+Each mode speaks to a different part of what the Raspberry Pi can become — a lab, a console, a canvas, or a companion.
+
+This repository documents not just a configuration, but a process of reuse and curiosity.  
+Every section here can be forked, remixed, or stripped down to serve your own project — whether that’s another handheld Pi build, a bench tester, or a pocket terminal.
+
+> **Philosophy:** hardware ages, but experimentation doesn’t. Keep tinkering.
+
+<p align="center">
+  <em>For reference builds, see <a href="https://github.com/Echoras/angryoxide" target="_blank">Angry Oxide</a></em>
+</p>
+
+<p align="center">
+  <strong>— End of Document —</strong><br/>
+  <em>Maintained by Echoras</em>
+</p>
