@@ -1,0 +1,2 @@
+1#!/bin/bash mpv --loop-playlist --fullscreen /home/pi/GIFS/ 
+

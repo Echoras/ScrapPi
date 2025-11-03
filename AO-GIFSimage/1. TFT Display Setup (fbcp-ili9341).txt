@@ -1,0 +1,109 @@
+1. TFT Display Setup (fbcp-ili9341)
+
+Clone the repository for fbcp-ili9341:
+
+sudo git clone https://github.com/juj/fbcp-ili9341
+
+
+Create build directory and compile:
+
+cd fbcp-ili9341
+sudo mkdir build
+cd build
+sudo cmake -DILI9341=ON -DGPIO_TFT_DATA_CONTROL=22 -DGPIO_TFT_RESET_PIN=27 -DSPI_BUS_CLOCK_DIVISOR=6 -DSTATISTICS=0 ..
+sudo make -j
+
+
+Edit rc.local to start fbcp on boot:
+
+sudo nano /etc/rc.local
+# Add the following line before 'exit 0':
+/home/pi/fbcp-ili9341/build/fbcp-ili9341 & 
+
+
+Edit /boot/config.txt for TFT display setup:
+
+sudo nano /boot/config.txt
+# Add any necessary overlays and settings, e.g.:
+dtoverlay=spi0-hw-cs
+
+2. Wi-Fi Drivers (rtl8812au / rtl8812au DKMS)
+
+Clone the Realtek Wi-Fi driver repositories (rtl8812au/rtl8812au):
+
+sudo git clone https://github.com/gnab/rtl8812au.git
+cd rtl8812au
+
+
+Install dependencies for building the driver:
+
+sudo apt-get install build-essential
+sudo apt-get install dkms
+
+
+Install the driver using DKMS:
+
+sudo make dkms_install
+
+
+Check DKMS status (to ensure driver was installed correctly):
+
+dkms status
+
+3. Bluetooth Setup
+
+Install Bluetooth packages:
+
+sudo apt install bluetooth bluez blueman -y
+
+
+Start Bluetooth service and enable it on boot:
+
+sudo systemctl start bluetooth
+sudo systemctl enable bluetooth
+
+
+Start Bluetooth control interface:
+
+bluetoothctl
+
+4. X/GUI Setup (for Angryoxide)
+
+Install X-related packages (for GUI):
+
+sudo apt-get install startx xorg xterm -y
+
+
+Run angryoxide (custom tool with xterm):
+
+startx /usr/bin/xterm -geometry 118x54+0+0 -fg white -bg black -e "sudo angryoxide --interface wlan1 ..."
+
+5. General System Setup and Updates
+
+Update system and install basic packages:
+
+sudo apt update
+sudo apt-get upgrade
+sudo apt install -y wget cmake python3-venv raspberrypi-kernel-headers
+
+
+Install Git:
+
+sudo apt-get install git
+
+6. Monitor Mode Setup for Wireless Network
+
+Install aircrack-ng tools:
+
+sudo apt-get install airmon-ng
+
+
+Set wireless interfaces to monitor mode:
+
+sudo iw dev wlan0 set type monitor
+sudo iw dev wlan1 set type monitor
+
+
+Start monitor mode on wlan1:
+
+sudo airmon-ng start wlan1

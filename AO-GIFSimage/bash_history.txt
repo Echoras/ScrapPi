@@ -1,0 +1,103 @@
+sudo apt update
+sudo apt-get upgrade
+sudo apt install -y wget cmake python3-venv raspberrypi-kernel-headers
+sudo git clone https://github.com/juj/fbcp-ili9341
+sudo apt-get install git
+sudo git clone https://github.com/juj/fbcp-ili9341
+cd fbcp-ili9341
+sudo mkdir build
+cd build
+sudo cmake -DILI9341=ON -DGPIO_TFT_DATA_CONTROL=22 -DGPIO_TFT_RESET_PIN=27 -DSPI_BUS_CLOCK_DIVISOR=6 -DSTATISTICS=0 ..
+sudo make -j
+sudo nano /etc/rc.local
+sudo nano /boot/config.txt
+sudo git clone https: //github.com/gnab/rt18812au.git
+cd ~
+sudo git clone https: //github.com/gnab/rtl8812au.git
+sudo git clone https://github.com/gnab/rt18812au.git
+sudo git clone https://github.com/gnab/rtl8812au
+cd rtl8812au
+sudo nano Makefile
+sudo chmod +x install.sh
+sudo apt-get install build-essential
+sudo ./install.sh
+sudo apt install bluetooth bluez blueman -y
+sudo systemctl start bluetooth
+sudo systemctl enable bluetooth
+bluetoothctl
+sudo reboot
+ip link show
+sudo raspi-config
+ip link
+iw dev
+b
+sudo apt-get install airmon-ng
+sudo iw dev wlan0 set type monitor
+sudo iw dev wlan1 set type monitor
+sudo dkms remove rtl8812au/5.6.4.2 --all
+sudo dkms remove rtl8812au --all
+sudo airmon-ng start wlan1
+git clone https://github.com/aircrack-ng/rtl8812au.git
+sudo rm -rf rtl8812au
+ls
+git clone https://github.com/aircrack-ng/rtl8812au.git
+cd rtl8812au
+sudo make dkms_install
+sudo dkms remove rtl8812au/5.6.4.2 --all
+sudo dkms remove rtl8812au/5.6.4.2_35491 --all
+sudo dkms remove rtl8812au/5.6.4.2_35491.20191025 --all
+sudo ls dkms
+dkms status
+sudo dkms remove 8812au/5.6.4.2_35491.20191025 -all
+sudo dkms remove 8812au/5.6.4.2_35491.20191025 --all
+lsusb
+sudo make dkms_install
+sudo reboot
+sudo ip link set wlan1 down
+sudo iw dev wlan1 set type monitor
+sudo ip link set wlan1 up
+sudo dkms remove 8812au/5.6.4.2_35491.20191025 --all
+sudo git clone https://github.com/morrownr/8821au-20210708
+cd 8821au-20210708
+ls
+sudo ./install-driver.sh
+sudo apt-get install bc
+sudo ./install-driver.sh
+fg
+startx /usr/bin/xterm -geometry 118x54+0+0 -fg white -bg black -e "sudo angryoxide --interface wlan1 --
+
+
+startx
+sudo startx
+startx /usr/bin/xterm -geometry 118x54+0+0 -fg white -bg black -e "sudo angryoxide --interface wlan1
+ls
+sudo rm -rf rtl8812au
+ls
+sudo apt-get install startx
+sudo apt-get install xorg
+sudo apt-get install xterm
+startx /usr/bin/xterm -geometry 118x54+0+0 -fg white -bg black -e "sudo angryoxide --interface wlan1
+
+
+
+
+s
+1
+
+s
+s
+
+scSAc
+sac
+s
+c
+c
+c
+qw
+cnone
+none
+sudo reboot
+startx
+x
+startx /usr/bin/xterm -geometry 118x54+0+0 -fg white -bg black -e "sudo angryoxide --interface wlan1 --
+ddd
