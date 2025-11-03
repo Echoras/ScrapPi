@@ -1,0 +1,105 @@
+sudo apt-get cmake
+sudo apt-get install cmake
+sudo git clone https://github.com/juj/fbcp-ili9341
+cd fbcp-ili9341
+sudo mkdir build
+cd build
+cmake -DILI9341=ON -DGPIO_TFT_DATA_CONTROL=22 -DGPIO_TFT_RESET_PIN=27 -DSPI_BUS_CLOCK_DIVISOR=6 -DSTATISTICS=0 ..
+sudo cmake -DILI9341=ON -DGPIO_TFT_DATA_CONTROL=22 -DGPIO_TFT_RESET_PIN=27 -DSPI_BUS_CLOCK_DIVISOR=6 -DSTATISTICS=0 ..
+sudo apt-get install build-essential
+clear
+sudo cmake -DILI9341=ON -DGPIO_TFT_DATA_CONTROL=22 -DGPIO_TFT_RESET_PIN=27 -DSPI_BUS_CLOCK_DIVISOR=6 -DSTATISTICS=0 ..
+sudo make -j
+sudo nano /etc/rc.local
+ls -l /rtc/rc.local
+sudo ls -l /etc/rc.local
+sudo nano /etc/rc.local
+sudo nano /boot/config.txt
+sudo nano /boot/usrconfig.txt
+sudo nano /boot/config.txt
+sudo nano /boot/userconfig.txt
+sudo reboot
+cd fbcp-ili9341
+cd build
+sudo ./fbcp-ili9341
+pwd
+sudo nano /etc/rc.local
+sudo reboot
+ls dev
+ls /dev/
+sudo apt-get update
+sudo apt-get install lightdm
+sudo apt install xserver-xorg-input-evdev
+sudo reboot
+Sudo nano /etc/lightdm/lightdm.conf
+sudo nano /etc/lightdm/lightdm.conf
+sudo nano /etc/rc.local
+sudo reboot
+sudo nano /etc/rc.local
+sudo nano /boot/userconfig.txt
+sudo reboot
+sudo nano /boot/userconfig.txt
+sudo reboot
+sudo nano /etc/rc.local
+sudo reboot
+sudo raspi-config
+sudo reboot
+df -h
+alsamixer
+sudo shutdown
+sudo shutdown now
+sudo apt install -y wget
+wget https://github.com/adafruit/Raspberry-Pi-Installer-Scripts/raw/main/i2samp.py
+sudo -E env PATH=$PATH python3 i2samp.py
+sudo pip3 install adafruit-python-shell
+sudo install adafruit-python-shell
+install -help
+install --help
+sudo apt-get install adafruit-python-shell
+sudo -E env PATH=$PATH python3 i2samp.py
+sudo pip3 install adafruit-python-shell
+sudo apt install python3-pip
+sudo -E env PATH=$PATH python3 i2samp.py
+sudo pip3 install adafruit-python-shell
+sudo -E env PATH=$PATH python3 i2samp.py
+sudo reboot
+sudo -E env PATH=$PATH python3 i2samp.py
+sudo reboot
+
+sudo -E env PATH=$PATH python3 i2samp.py
+alsamixer
+sudo raspi-config
+raspi-config
+sudo raspi-config
+sudo reboot
+sudo -E env PATH=$PATH python3 i2samp.py
+sudo reboot
+sudo speaker-test
+sudo -E env PATH=$PATH python3 i2samp.py
+sudo reboot
+                                                     sudo -E env PATH=$PATH python3 i2samp.py
+sudo reboot
+ls
+cd ls
+cd ~
+cd volumio
+sudo nano /usr/share/alsa/alsa.conf
+sudo nano /etc/init
+c
+sudo nano /etc/rc.local
+sudo reboot
+sudo nano /etc/rc.local
+sudo nano /etc/asound.conf
+sudo nano /etc/systemd/system/aplay.service
+sudo systemctl daemon-reload
+sudo systemctl enable aplay.service
+sudo systemctl start aplay.service
+system status aplay.service
+systemctl status aplay.service
+sudo nano /etc/asound.conf
+sudo nano /etc/systemd/system/aplay.service
+sudo nano /etc/asound.conf
+sudo systemctl enable aplay.service
+sudo systemctl start aplay.service
+systemctl status aplay.service
+sudo -E env PATH=$PATH python3 i2samp.py
